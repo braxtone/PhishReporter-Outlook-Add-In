@@ -7,7 +7,9 @@ There are tons of companies (now) offering this type of Add-In, but PhishReporte
 
 ## Requirements to Build/Customize the PhishReporter Outlook Add-In:
 
-* PhishReporter Project Files: https://app.box.com/PhishReporter
-* Visual Studio professional
-- I’m using Visual Studio Professional 2013 and I have not tested it on any other versions
+* PhishReporter Project Files - Clone this repo
+* Visual Studio 2015 (Tested and working on Community and Professional)
 * Visual Studio Installer Projects Extension: https://visualstudiogallery.msdn.microsoft.com/9abe329c-9bba-44a1-be59-0fbf6151054d
+* Visual Studio Office Developer Tools
+* To customize the plugin, just edit the setting in the PhishRepoerterConfig.vb file in the ForwardToAbuseAddin project
+
