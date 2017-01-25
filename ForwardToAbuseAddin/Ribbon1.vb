@@ -25,11 +25,14 @@ Public Class HOME
         If exp.Selection.Count Then
             Dim response = MsgBox("The selected message will be forwarded to " & PhishReporterConfig.SecurityTeamEmailAlias & vbCrLf & " and removed from your inbox.  Would you like to continue?", MsgBoxStyle.YesNo, "Report Phishing To Your Security Team")
             If response = MsgBoxResult.Yes Then
-                ' TODO: Be able to handle multiple selected messages rather than just the first one.
+                ' Added loops for attaching/deleting selected items
                 Dim phishEmail As Outlook.MailItem = exp.Selection(1)
                 Dim reportEmail As Outlook.MailItem = Globals.ThisAddIn.Application.CreateItem(Outlook.OlItemType.olMailItem)
-
-                reportEmail.Attachments.Add(phishEmail, Outlook.OlAttachmentType.olEmbeddeditem)
+                For Each phishEmail In exp.Selection
+                    With phishEmail
+                    reportEmail.Attachments.Add(phishEmail, Outlook.OlAttachmentType.olEmbeddeditem)
+                    End With 
+                Next
                 reportEmail.Subject = PhishReporterConfig.ReportEmailSubject & " - '" & phishEmail.Subject & "'"
                 reportEmail.To = PhishReporterConfig.SecurityTeamEmailAlias
                 reportEmail.Body = "This is a user-submitted report of a phishing email delivered by the PhishReporter Outlook plugin. Please review the attached phishing email"
@@ -41,7 +44,11 @@ Public Class HOME
                 End If
 
                 reportEmail.Send()
-                phishEmail.Delete()
+                For Each phishEmail In exp.Selection
+                    With phishEmail
+                        phishEmail.Delete()
+                    End With
+                Next
             Else
             End If
         Else
